@@ -1552,7 +1552,7 @@ static void serial9865_shutdown(struct uart_port *port)
 
 	DEBUG("In %s ---------------------------------------START\n",__FUNCTION__);
 
-	printk("No of Errors In ttyD%d brake=%d frame=%d parity=%d overrun=%d\n", \
+	printk("No of Errors In ttyS%d brake=%d frame=%d parity=%d overrun=%d\n", \
 		port->line, port->icount.brk, port->icount.frame, port->icount.parity,\
 		port->icount.overrun);
 	/*
@@ -2105,7 +2105,7 @@ static DEFINE_SEMAPHORE(serial9865_sem);
 static struct uart_driver mcs9865_serial_driver = {
         .owner                  = THIS_MODULE,
         .driver_name            = "mcs9865-serial",
-        .dev_name               = "ttyD",
+        .dev_name               = "ttyS",
         .major                  = 201,//using 200 for mcs9865
         .minor                  = 0,
         .nr                     = UART9865_NR,

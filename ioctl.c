@@ -27,10 +27,10 @@ int main(int argc, char* argv[])
 
 	while (1) {
 
-		printf("Please input the port of MCS99xx. (ex. /dev/ttyD0):");
+		printf("Please input the port of MCS99xx. (ex. /dev/ttyS0):");
 		scanf("%s", dev);
 
-		if (memcmp(dev, "/dev/ttyD", 9) != 0)
+		if (memcmp(dev, "/dev/ttyS", 9) != 0)
 			printf("Wrong input!!\n");
 		else
 			break;
