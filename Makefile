@@ -7,6 +7,9 @@ MAJORVERSION=$(shell uname -r | cut -d '.' -f 1)
 MINORVERSION=$(shell uname -r | cut -d '.' -f 2)
 SUBLEVEL=$(shell uname -r | cut -d '.' -f 3)
 
+ifeq ($(MAJORVERSION),5)
+MDIR=drivers/tty/serial
+else
 ifeq ($(MAJORVERSION),4)
 MDIR=drivers/tty/serial
 else
@@ -24,13 +27,14 @@ MDIR=drivers/serial/
 endif
 endif
 endif
+endif
 
 obj-m +=mcs9865.o
 obj-m +=mcs9865-isa.o
 
 default:
 	$(RM) *.mod.c *.o *.ko .*.cmd *.symvers
-	$(MAKE) -C $(KDIR) SUBDIRS=$(PWD) modules
+	$(MAKE) -C $(KDIR) M=$(PWD) modules
 	gcc -pthread ioctl.c -o ioctl
 load:
 	insmod mcs9865.ko
@@ -45,11 +49,11 @@ install:
 ifeq ($(DEBIAN_DISTRO), $(DEBIAN_VERSION_FILE))
 	ln -s /etc/init.d/mcs9865 /etc/rcS.d/S99mcs9865 || true
 else
-	ln -s /etc/init.d/mcs9865 /etc/rc3.d/S99mcs9865 || true  	
+	ln -s /etc/init.d/mcs9865 /etc/rc3.d/S99mcs9865 || true
 	ln -s /etc/init.d/mcs9865 /etc/rc5.d/S99mcs9865 || true
 endif
 	modprobe mcs9865
-	modprobe mcs9865-isa	
+	modprobe mcs9865-isa
 
 uninstall:
 	modprobe -r mcs9865
@@ -65,6 +69,7 @@ else
 endif
 
 clean:
+	$(MAKE) -C $(KDIR) M=$(PWD) clean
 	$(RM) *.mod.c *.o *.ko .*.cmd *.symvers *.order *.markers
 	$(RM) -r .tmp_versions
 	rm -f ioctl

@@ -52,8 +52,8 @@
 #include <linux/ioctl.h>
 #include "ioctl.h"
 
-#define UART9865_NR  16
-#define UPIO_DWAPB              (6)                   /* DesignWare APB UART */
+#define UART9865_NR	16
+#define UPIO_DWAPB	(6)	/* DesignWare APB UART */
 
 //All transactions are with memory mapped registers
 #define MEM_AXS 1
@@ -62,11 +62,11 @@
  * Definitions for PCI support.
  */
 #define FL_BASE_MASK		0x0007
-#define FL_BASE0			0x0000
-#define FL_BASE1			0x0001
-#define FL_BASE2			0x0002
-#define FL_BASE3			0x0003
-#define FL_BASE4			0x0004
+#define FL_BASE0		0x0000
+#define FL_BASE1		0x0001
+#define FL_BASE2		0x0002
+#define FL_BASE3		0x0003
+#define FL_BASE4		0x0004
 #define FL_GET_BASE(x)		(x & FL_BASE_MASK)
 
 #if 0
@@ -108,29 +108,28 @@ struct uart_9865_port {
 
 	int 			custom_setting;
 	int			custom_baud;
-
 };
 
 static struct uart_9865_port serial9865_ports[UART9865_NR];
 
-//static int test_mode=0;	
+//static int test_mode=0;
 
 struct uart_9865_contxt{
-	int rx_dma_en;		
+	int rx_dma_en;
 				//0-I/O mode of RX
 				//1 -DMA mode of RX
-	int tx_dma_en;		
+	int tx_dma_en;
 				//0-I/O mode of TX 
 				//1 -DMA mode of TX
-	int  uart_mode;		
+	int  uart_mode;
 				//MCS9865_RS232_MODE
 				//MCS9865_RS422_MODE
 				//MCS9865_RS485_HALF_DUPLEX
 				//MCS9865_RS485_FULL_DUPLEX
-	int en_flow_control;  
-				//0 - No H/W Flow Control	 
+	int en_flow_control;
+				//0 - No H/W Flow Control
 				//1 - H/W Flow Control
-	int  flow_ctrl_type;	
+	int  flow_ctrl_type;
 				//MCS9865_DTR_DSR_HW_FLOWCONTROL
 				//MCS9865_XON_XOFF_HW_FLOWCONTROL
 				//MCS9865_RTS_CTS_HW_FLOWCONTROL
@@ -149,7 +148,7 @@ static struct uart_9865_contxt uart_9865_contxts[] = {
 		.en_flow_control= 0,
 		.flow_ctrl_type = MCS9865_XON_XOFF_HW_FLOWCONTROL,
 		.rxfifotrigger	= 64,
-		.txfifotrigger	= 64,		
+		.txfifotrigger	= 64,
 		.x_on	= SERIAL_DEF_XON,
 		.x_off	= SERIAL_DEF_XOFF,
 	},
@@ -161,7 +160,7 @@ static struct uart_9865_contxt uart_9865_contxts[] = {
 		.en_flow_control= 0,
 		.flow_ctrl_type = MCS9865_XON_XOFF_HW_FLOWCONTROL,
 		.rxfifotrigger  = 64,
-		.txfifotrigger  = 64,		
+		.txfifotrigger  = 64,
 		.x_on=  SERIAL_DEF_XON,
 		.x_off= SERIAL_DEF_XOFF,
 	},
@@ -173,7 +172,7 @@ static struct uart_9865_contxt uart_9865_contxts[] = {
 		.en_flow_control= 0,
 		.flow_ctrl_type = MCS9865_XON_XOFF_HW_FLOWCONTROL,
 		.rxfifotrigger=64,
-		.txfifotrigger=64,		
+		.txfifotrigger=64,
 		.x_on=SERIAL_DEF_XON,
 		.x_off=SERIAL_DEF_XOFF,
 	},
@@ -185,7 +184,7 @@ static struct uart_9865_contxt uart_9865_contxts[] = {
 		.en_flow_control= 0,
 		.flow_ctrl_type = MCS9865_XON_XOFF_HW_FLOWCONTROL,
 		.rxfifotrigger=64,
-		.txfifotrigger=64,		
+		.txfifotrigger=64,
 		.x_on=SERIAL_DEF_XON,
 		.x_off=SERIAL_DEF_XOFF,
 	},
@@ -197,7 +196,7 @@ static struct uart_9865_contxt uart_9865_contxts[] = {
 		.en_flow_control= 0,
 		.flow_ctrl_type = MCS9865_XON_XOFF_HW_FLOWCONTROL,
 		.rxfifotrigger=64,
-		.txfifotrigger=64,		
+		.txfifotrigger=64,
 		.x_on=SERIAL_DEF_XON,
 		.x_off=SERIAL_DEF_XOFF,
 	},
@@ -209,7 +208,7 @@ static struct uart_9865_contxt uart_9865_contxts[] = {
 		.en_flow_control= 0,
 		.flow_ctrl_type = MCS9865_XON_XOFF_HW_FLOWCONTROL,
 		.rxfifotrigger=64,
-		.txfifotrigger=64,		
+		.txfifotrigger=64,
 		.x_on=SERIAL_DEF_XON,
 		.x_off=SERIAL_DEF_XOFF,
 	},
@@ -221,7 +220,7 @@ static struct uart_9865_contxt uart_9865_contxts[] = {
 		.en_flow_control= 0,
 		.flow_ctrl_type = MCS9865_XON_XOFF_HW_FLOWCONTROL,
 		.rxfifotrigger=64,
-		.txfifotrigger=64,		
+		.txfifotrigger=64,
 		.x_on=SERIAL_DEF_XON,
 		.x_off=SERIAL_DEF_XOFF,
 	},
@@ -233,7 +232,7 @@ static struct uart_9865_contxt uart_9865_contxts[] = {
 		.en_flow_control= 0,
 		.flow_ctrl_type = MCS9865_XON_XOFF_HW_FLOWCONTROL,
 		.rxfifotrigger=64,
-		.txfifotrigger=64,		
+		.txfifotrigger=64,
 		.x_on=SERIAL_DEF_XON,
 		.x_off=SERIAL_DEF_XOFF,
 	},
@@ -245,7 +244,7 @@ static struct uart_9865_contxt uart_9865_contxts[] = {
 		.en_flow_control= 0,
 		.flow_ctrl_type = MCS9865_XON_XOFF_HW_FLOWCONTROL,
 		.rxfifotrigger=64,
-		.txfifotrigger=64,		
+		.txfifotrigger=64,
 		.x_on=SERIAL_DEF_XON,
 		.x_off=SERIAL_DEF_XOFF,
 	},
@@ -257,7 +256,7 @@ static struct uart_9865_contxt uart_9865_contxts[] = {
 		.en_flow_control= 0,
 		.flow_ctrl_type = MCS9865_XON_XOFF_HW_FLOWCONTROL,
 		.rxfifotrigger=64,
-		.txfifotrigger=64,		
+		.txfifotrigger=64,
 		.x_on=SERIAL_DEF_XON,
 		.x_off=SERIAL_DEF_XOFF,
 	},
@@ -269,7 +268,7 @@ static struct uart_9865_contxt uart_9865_contxts[] = {
 		.en_flow_control= 0,
 		.flow_ctrl_type = MCS9865_XON_XOFF_HW_FLOWCONTROL,
 		.rxfifotrigger=64,
-		.txfifotrigger=64,		
+		.txfifotrigger=64,
 		.x_on=SERIAL_DEF_XON,
 		.x_off=SERIAL_DEF_XOFF,
 	},
@@ -281,7 +280,7 @@ static struct uart_9865_contxt uart_9865_contxts[] = {
 		.en_flow_control= 0,
 		.flow_ctrl_type = MCS9865_XON_XOFF_HW_FLOWCONTROL,
 		.rxfifotrigger=64,
-		.txfifotrigger=64,		
+		.txfifotrigger=64,
 		.x_on=SERIAL_DEF_XON,
 		.x_off=SERIAL_DEF_XOFF,
 	},
@@ -293,7 +292,7 @@ static struct uart_9865_contxt uart_9865_contxts[] = {
 		.en_flow_control= 0,
 		.flow_ctrl_type = MCS9865_XON_XOFF_HW_FLOWCONTROL,
 		.rxfifotrigger=64,
-		.txfifotrigger=64,		
+		.txfifotrigger=64,
 		.x_on=SERIAL_DEF_XON,
 		.x_off=SERIAL_DEF_XOFF,
 	},
@@ -305,7 +304,7 @@ static struct uart_9865_contxt uart_9865_contxts[] = {
 		.en_flow_control= 0,
 		.flow_ctrl_type = MCS9865_XON_XOFF_HW_FLOWCONTROL,
 		.rxfifotrigger=64,
-		.txfifotrigger=64,		
+		.txfifotrigger=64,
 		.x_on=SERIAL_DEF_XON,
 		.x_off=SERIAL_DEF_XOFF,
 	},
@@ -317,7 +316,7 @@ static struct uart_9865_contxt uart_9865_contxts[] = {
 		.en_flow_control= 0,
 		.flow_ctrl_type = MCS9865_XON_XOFF_HW_FLOWCONTROL,
 		.rxfifotrigger=64,
-		.txfifotrigger=64,		
+		.txfifotrigger=64,
 		.x_on=SERIAL_DEF_XON,
 		.x_off=SERIAL_DEF_XOFF,
 	},
@@ -329,7 +328,7 @@ static struct uart_9865_contxt uart_9865_contxts[] = {
 		.en_flow_control= 0,
 		.flow_ctrl_type = MCS9865_XON_XOFF_HW_FLOWCONTROL,
 		.rxfifotrigger=64,
-		.txfifotrigger=64,		
+		.txfifotrigger=64,
 		.x_on=SERIAL_DEF_XON,
 		.x_off=SERIAL_DEF_XOFF,
 	},
@@ -1059,7 +1058,8 @@ static inline void serial9865_handle_port(struct uart_9865_port *up, struct pt_r
 	}
 
 	if(up->dma_rx){
-		if (status & (UART_LSR_BI | UART_LSR_PE |UART_LSR_FE | UART_LSR_OE)){
+		if (status & 
+		    (UART_LSR_BI | UART_LSR_PE |UART_LSR_FE | UART_LSR_OE)) {
 			//For statistics only
 			if (status & UART_LSR_BI) {
 				status &= ~(UART_LSR_FE | UART_LSR_PE);
@@ -1072,22 +1072,24 @@ static inline void serial9865_handle_port(struct uart_9865_port *up, struct pt_r
 				 */
 				if (uart_handle_break(&up->port))
 					return;
-			}else if (status & UART_LSR_PE)
+			} else if (status & UART_LSR_PE) {
 				up->port.icount.parity++;
-			else if (status & UART_LSR_FE)
+			} else if (status & UART_LSR_FE) {
 				up->port.icount.frame++;
-			if (status & UART_LSR_OE)
-				up->port.icount.overrun++;
-	
-				//Mask off conditions which should be ignored.
-				status &= up->port.read_status_mask;		
 			}
-		if (status & ~up->port.ignore_status_mask & UART_LSR_OE)
+			if (status & UART_LSR_OE) {
+				up->port.icount.overrun++;
+			}
+			//Mask off conditions which should be ignored.
+			status &= up->port.read_status_mask;
+		}
+		if (status & ~up->port.ignore_status_mask & UART_LSR_OE) {
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(3,9,0)
 			tty_insert_flip_char(tty->port, 0, TTY_OVERRUN);
 #else
 			tty_insert_flip_char(tty, 0, TTY_OVERRUN);
-#endif	
+#endif
+		}
 	}
 	DEBUG("In %s ---------------------------------------END\n",__FUNCTION__);	
 }
@@ -1552,7 +1554,7 @@ static void serial9865_shutdown(struct uart_port *port)
 
 	DEBUG("In %s ---------------------------------------START\n",__FUNCTION__);
 
-	printk("No of Errors In ttyS%d brake=%d frame=%d parity=%d overrun=%d\n", \
+	printk("No of Errors In ttyD%d brake=%d frame=%d parity=%d overrun=%d\n", \
 		port->line, port->icount.brk, port->icount.frame, port->icount.parity,\
 		port->icount.overrun);
 	/*
@@ -2105,7 +2107,7 @@ static DEFINE_SEMAPHORE(serial9865_sem);
 static struct uart_driver mcs9865_serial_driver = {
         .owner                  = THIS_MODULE,
         .driver_name            = "mcs9865-serial",
-        .dev_name               = "ttyS",
+        .dev_name               = "ttyD",
         .major                  = 201,//using 200 for mcs9865
         .minor                  = 0,
         .nr                     = UART9865_NR,

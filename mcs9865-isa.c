@@ -51,7 +51,7 @@
 
 struct isa_private {
 		int nr_ports;
-		int line[MAX_ISA_PORTS];	
+		int line[MAX_ISA_PORTS];
 }isa_priv;
 
 #if 0
@@ -71,28 +71,33 @@ static int __devinit pci_isa_serial_init_one(struct pci_dev *dev, const struct p
 #endif
 {
 	int rc,retval,i,nr_ports;
+
 	rc = pci_enable_device(dev);
 	if (rc)
 		return rc;
 
-        //To verify wether it is a serial communication hardware
-        if ((dev->class >> 8) !=  PCI_CLASS_COMMUNICATION_OTHER){
-                DEBUG("Not a communication hardware\n");
-                retval = -ENODEV;
-                goto disable;
-        }
+	//To verify wether it is a serial communication hardware
+	if ((dev->class >> 8) !=  PCI_CLASS_COMMUNICATION_OTHER){
+		DEBUG("Not a communication hardware\n");
+		retval = -ENODEV;
+		goto disable;
+	}
 	
 	//To verify wether it is a MCS9865 ISA type BARs
-        if(((pci_resource_flags(dev,FL_BASE0) & BAR_FMT) ^ BAR_IO) || ((pci_resource_flags(dev,FL_BASE1) & BAR_FMT) ^ BAR_IO) ||((pci_resource_flags(dev,FL_BASE2) & BAR_FMT) ^ BAR_IO) || ((pci_resource_flags(dev,FL_BASE3) & BAR_FMT) ^ BAR_IO) || ((pci_resource_flags(dev,FL_BASE5) & BAR_FMT) ^ BAR_MEM)) {
-                DEBUG("Not a MCS9865 ISA type device\n");
-                retval = -ENOMEM;
-                goto disable;
-        }
+	if(((pci_resource_flags(dev,FL_BASE0) & BAR_FMT) ^ BAR_IO) ||
+	   ((pci_resource_flags(dev,FL_BASE1) & BAR_FMT) ^ BAR_IO) ||
+	   ((pci_resource_flags(dev,FL_BASE2) & BAR_FMT) ^ BAR_IO) ||
+	   ((pci_resource_flags(dev,FL_BASE3) & BAR_FMT) ^ BAR_IO) ||
+	   ((pci_resource_flags(dev,FL_BASE5) & BAR_FMT) ^ BAR_MEM)) {
+		DEBUG("Not a MCS9865 ISA type device\n");
+		retval = -ENOMEM;
+		goto disable;
+	}
 
 	pci_set_master(dev);
 	nr_ports=dev->subsystem_device & STX_NR_PORTS;
 
-	DEBUG("No of ports detected is =%d \n",nr_ports);	
+	DEBUG("No of ports detected is =%d \n",nr_ports);
 
 	for (i = 0; i < nr_ports; i++) {
 		struct uart_port serial_port;
@@ -126,7 +131,7 @@ static int __devinit pci_isa_serial_init_one(struct pci_dev *dev, const struct p
 
 	return 0;
 
- disable:
+disable:
 	pci_disable_device(dev);
 	return retval;
 }

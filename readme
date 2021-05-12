@@ -13,9 +13,10 @@ Building the Driver:
   Change to the folder with the Starex source files. And run the following Command:
 	$ make
 
-  Once the driver is compliles the loadable module mcs9865.ko will be created in the same folder.
+  Once the driver is compliles the loadable module mcs9865.ko will be created in
+   the same folder.
 
-	**  '$' --this symbol represent the shell prompt on linux			
+	**  '$' --this symbol represent the shell prompt on linux
 
 To build driver on kernels from v2.6.34 till latest:
 ----------------------------------------------------
@@ -98,9 +99,9 @@ Feature Configuration:
 	-x-on character
 	-x-off character
 
-  An example array setting for PORT 0 which will be recognised as /dev/ttyS0:			
+  An example array setting for PORT 0 which will be recognised as /dev/ttyD0:			
 
-  //Port 0	--**This represents that this setting is for port 0 which will be recognised as /dev/ttyS0
+  //Port 0	--**This represents that this setting is for port 0 which will be recognised as /dev/ttyD0
   {
 	.rx_dma_en	= 0,
 	.tx_dma_en	= 0,
